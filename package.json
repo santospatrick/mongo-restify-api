@@ -1,0 +1,24 @@
+{
+  "name": "mongo-restify-api",
+  "version": "1.0.0",
+  "description": "Node.js/MongoDB/Restify API studying purpose only",
+  "main": "app.js",
+  "dependencies": {
+    "restify": "^4.3.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/santospatrick/mongo-restify-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/santospatrick/mongo-restify-api/issues"
+  },
+  "homepage": "https://github.com/santospatrick/mongo-restify-api#readme"
+}

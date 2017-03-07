@@ -28,15 +28,7 @@ function failure (res, next, data, http_code) {
 }
 
 server.get('/', function(req, res, next) {
-    var response = {
-        'status': 'success',
-        'data': users
-    }
-
-    res.setHeader('content-type', 'application/json')
-    res.writeHead(200)
-    res.end(JSON.stringify(response))
-    return next()
+    success(res, next, users)
 })
 
 server.get('/user/:id', function(req, res, next) {

@@ -32,16 +32,7 @@ server.get('/', function(req, res, next) {
 })
 
 server.get('/user/:id', function(req, res, next) {
-    
-    var response = {
-        'status': 'success',
-        'data': users[parseInt(req.params.id)]
-    }
-
-    res.setHeader('content-type', 'application/json')
-    res.writeHead(200)
-    res.end(JSON.stringify(response))
-    return next()
+    success(res, next, users[parseInt(req.params.id)])
 })
 
 server.post('/user', function(req, res, next) {
@@ -50,10 +41,7 @@ server.post('/user', function(req, res, next) {
     user.id = max_user_id
     users[user.id] = user
 
-    res.setHeader('content-type', 'application/json')
-    res.writeHead(200)
-    res.end(JSON.stringify(user))
-    return next()
+    success(res, next, user)
 })
 
 server.listen(8080, function() {

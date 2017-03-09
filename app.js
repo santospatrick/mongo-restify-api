@@ -44,6 +44,16 @@ server.post('/user', function(req, res, next) {
     success(res, next, user)
 })
 
+server.put('/user/:id', function(req, res, next) {
+    var user = users[parseInt(req.params.id)]
+    var updates = req.params
+    for (var field in updates) {
+        user[field] = updates[field]
+    }
+
+    success(res, next, user)
+})
+
 server.listen(8080, function() {
     console.log('listening at', server.name, server.url)
 })

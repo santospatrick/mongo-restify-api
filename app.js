@@ -54,6 +54,12 @@ server.put('/user/:id', function(req, res, next) {
     success(res, next, user)
 })
 
+server.del('user/:id', function(req, res, next) {
+    delete users[parseInt(req.params.id)]
+
+    success(res, next, [])
+})
+
 server.listen(8080, function() {
     console.log('listening at', server.name, server.url)
 })

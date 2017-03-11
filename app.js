@@ -61,6 +61,9 @@ server.put('/user/:id', function(req, res, next) {
 })
 
 server.del('user/:id', function(req, res, next) {
+    if (typeof (users[req.params.id]) === 'undefined'){
+        failure(res, next, 'the specified user could not be found', 404)
+    }
     delete users[parseInt(req.params.id)]
 
     success(res, next, [])

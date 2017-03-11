@@ -32,6 +32,9 @@ server.get('/', function(req, res, next) {
 })
 
 server.get('/user/:id', function(req, res, next) {
+    if (typeof (users[req.params.id]) === 'undefined'){
+        failure(res, next, 'the specified user could not be found', 404)
+    }
     success(res, next, users[parseInt(req.params.id)])
 })
 

@@ -48,6 +48,9 @@ server.post('/user', function(req, res, next) {
 })
 
 server.put('/user/:id', function(req, res, next) {
+    if (typeof (users[req.params.id]) === 'undefined'){
+        failure(res, next, 'the specified user could not be found', 404)
+    }
     var user = users[parseInt(req.params.id)]
     var updates = req.params
     for (var field in updates) {

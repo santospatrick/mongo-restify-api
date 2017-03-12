@@ -1,5 +1,7 @@
 var restify = require('restify')
 var server = restify.createServer()
+var setup = require('./controllers/setup.js')
+var userController = require('./controllers/userController.js')
 
 var users = {}
 var max_user_id = 0

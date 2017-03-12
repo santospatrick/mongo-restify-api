@@ -4,7 +4,8 @@
   "description": "Node.js/MongoDB/Restify API studying purpose only",
   "main": "app.js",
   "dependencies": {
-    "restify": "^4.3.0"
+    "restify": "^4.3.0",
+    "restify-validator": "^0.3.1"
   },
   "devDependencies": {},
   "scripts": {

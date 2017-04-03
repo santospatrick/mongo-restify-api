@@ -39,6 +39,11 @@ module.exports = function (server) {
   })
 
   server.put('/user/:id', function (req, res, next) {
+    req.assert('id', 'Id is required and must be numeric').notEmpty().isInt()
+    var errors = req.validationErrors()
+    if (errors) {
+      helpers.failure(res, next, errors[0], 400)
+    }
     if (typeof (users[req.params.id]) === 'undefined') {
       helpers.failure(res, next, 'the specified user could not be found', 404)
     }
@@ -52,6 +57,11 @@ module.exports = function (server) {
   })
 
   server.del('user/:id', function (req, res, next) {
+    req.assert('id', 'Id is required and must be numeric').notEmpty().isInt()
+    var errors = req.validationErrors()
+    if (errors) {
+      helpers.failure(res, next, errors[0], 400)
+    }
     if (typeof (users[req.params.id]) === 'undefined') {
       helpers.failure(res, next, 'the specified user could not be found', 404)
     }

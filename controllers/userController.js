@@ -22,6 +22,14 @@ module.exports = function (server) {
   })
 
   server.post('/user', function (req, res, next) {
+    req.assert('first_name', 'First Name is required').notEmpty()
+    req.assert('last_name', 'Last Name is required').notEmpty()
+    req.assert('email_address', 'Email address is required and must be a valid email').notEmpty().isEmail()
+    req.assert('career', 'Career must be either student, teacher or professor').isIn(['student', 'teacher', 'professor'])
+    var errors = req.validationErrors()
+    if (errors) {
+      helpers.failure(res, next, errors, 400)
+    }
     var user = req.params
     max_user_id++
     user.id = max_user_id

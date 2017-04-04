@@ -41,27 +41,34 @@ module.exports = function (server) {
     user.email_address = req.params.email_address
     user.career = req.params.career
     user.save(function(err){
-        helpers.failure(res, next, errors, 500)
+      helpers.failure(res, next, errors, 500)
     })
     helpers.success(res, next, user)
   })
 
   server.put('/user/:id', function (req, res, next) {
-    req.assert('id', 'Id is required and must be numeric').notEmpty().isInt()
+    req.assert('id', 'Id is required and must be numeric').notEmpty()
     var errors = req.validationErrors()
     if (errors) {
       helpers.failure(res, next, errors[0], 400)
     }
-    if (typeof (users[req.params.id]) === 'undefined') {
-      helpers.failure(res, next, 'the specified user could not be found', 404)
-    }
-    var user = users[parseInt(req.params.id)]
-    var updates = req.params
-    for (var field in updates) {
-      user[field] = updates[field]
-    }
-
-    helpers.success(res, next, user)
+    UserModel.findOne({ _id: req.params.id }, function (err, user) {
+      if (err) {
+        helpers.failure(res, next, 'Something went wrong while fetching the user from the database', 500)
+      }
+      if (user === null){
+        helpers.failure(res, next, 'The specified user could not be found', 404)
+      }
+      var updates = req.params
+      delete updates.id
+      for (var field in updates) {
+        user[field] = updates[field]
+      }
+      user.save(function(err){
+        helpers.failure(res, next, 'Error saving user to the database', 500)
+      })
+      helpers.success(res, next, user)
+    })
   })
 
   server.del('user/:id', function (req, res, next) {

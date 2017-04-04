@@ -1,25 +1,29 @@
 var helpers = require('../config/helpers.js')
 var UserModel = require('../models/userModel.js')
 
-var users = {}
-var max_user_id = 0
-
 module.exports = function (server) {
 
   server.get('/', function (req, res, next) {
-    helpers.success(res, next, users)
+    UserModel.find({}, function (err, users) {
+      helpers.success(res, next, users)
+    })
   })
 
   server.get('/user/:id', function (req, res, next) {
-    req.assert('id', 'Id is required and must be numeric').notEmpty().isInt()
+    req.assert('id', 'Id is required and must be numeric').notEmpty()
     var errors = req.validationErrors()
     if (errors) {
       helpers.failure(res, next, errors[0], 400)
     }
-    if (typeof (users[req.params.id]) === 'undefined') {
-      helpers.failure(res, next, 'the specified user could not be found', 404)
-    }
-    helpers.success(res, next, users[parseInt(req.params.id)])
+    UserModel.findOne({ _id: req.params.id }, function (err, user) {
+      if (err) {
+        helpers.failure(res, next, 'Something went wrong while fetching the user from the database', 500)
+      }
+      if (user === null){
+        helpers.failure(res, next, 'The specified user could not be found', 404)
+      }
+      helpers.success(res, next, user)
+    })
   })
 
   server.post('/user', function (req, res, next) {
